@@ -108,11 +108,7 @@ void AcordeControlAudioProcessorEditor::timerCallback()
 
 void AcordeControlAudioProcessorEditor::paint(juce::Graphics& g)
 {
-    // Fondo con el color por defecto para la ventana redimensionable
-    //g.fillAll(getLookAndFeel().findColour(juce::ResizableWindow::backgroundColourId));
-
     g.fillAll(juce::Colours::darkgrey);
-
     g.setColour(juce::Colours::white);
     g.setFont(15.0f);
     g.drawFittedText("Sintetizador de Guitarra", getLocalBounds().removeFromTop(20), juce::Justification::centred, 1);
@@ -120,19 +116,16 @@ void AcordeControlAudioProcessorEditor::paint(juce::Graphics& g)
 
 void AcordeControlAudioProcessorEditor::resized()
 {
-    // --- Tamaños comunes ---
     const int sliderWidth = 60;
     const int sliderHeight = 150;
     const int sliderTop = 80;
     const int sliderSpacing = 20;
     const int leftMargin = 20;
 
-    // --- Sliders verticales alineados ---
     gainSlider.setBounds(leftMargin, sliderTop, sliderWidth, sliderHeight);
     volSlider.setBounds(leftMargin + (sliderWidth + sliderSpacing), sliderTop, sliderWidth, sliderHeight);
     delayStepSlider.setBounds(leftMargin + 2 * (sliderWidth + sliderSpacing), sliderTop, sliderWidth, sliderHeight);
 
-    // --- Botones de traste (centrados arriba) ---
     const int buttonWidth = 75;
     const int buttonHeight = 30;
     const int totalButtonWidth = static_cast<int>(trasteButtons.size()) * (buttonWidth + 10) - 10;

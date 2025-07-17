@@ -16,27 +16,15 @@ AcordeControlAudioProcessor::AcordeControlAudioProcessor()
                      #endif
                        ),
        parameters(*this, nullptr, "PARAMETERS", {
-           std::make_unique<juce::AudioParameterFloat>("gain",  // ID del parámetro
-                                                       "Gain",  // Nombre del parámetro (para GUI)
-                                                       1.0f,    // Valor mínimo
-                                                       10.0f,    // Valor máximo
-                                                       1.0f),    // Valor inicial por defecto
-           std::make_unique<juce::AudioParameterFloat>("vol",  // ID del parámetro
-                                                       "Vol",  // Nombre del parámetro (para GUI)
-                                                       0.0f,    // Valor mínimo
-                                                       10.0f,    // Valor máximo
-                                                       1.0f),    // Valor inicial por defecto
-            std::make_unique<juce::AudioParameterFloat>("delaystep", "DelayStep", 0.02f, 0.10f, 0.1f),
-
-
+           std::make_unique<juce::AudioParameterFloat>("gain", "Gain", 1.0f, 10.0f, 1.0f),
+           std::make_unique<juce::AudioParameterFloat>("vol", "Vol", 0.0f, 10.0f, 1.0f), 
+           std::make_unique<juce::AudioParameterFloat>("delaystep", "DelayStep", 0.02f, 0.10f, 0.1f),
        })
 #endif
 {
     gainParam = parameters.getRawParameterValue("gain");  // Guardamos puntero para acceso rápido
     volParam = parameters.getRawParameterValue("vol");
     delayStepParam = parameters.getRawParameterValue("delaystep");
-
-
 }
 
 AcordeControlAudioProcessor::~AcordeControlAudioProcessor()
@@ -168,8 +156,6 @@ void AcordeControlAudioProcessor::setStateInformation (const void* data, int siz
 }
 
 //==============================================================================
-// Esta función es requerida por JUCE para crear una instancia del plugin.
-// Si no está definida, da error de símbolo externo no resuelto.
 juce::AudioProcessor* JUCE_CALLTYPE createPluginFilter()
 {
     return new AcordeControlAudioProcessor();
@@ -238,10 +224,9 @@ void AcordeControlAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer
         }
 
         // Ajuste de volumen y evitar clipping
-        sampleValue *= (amplitude * Volumen / numTonos) * globalGain;
-        //sample *= (amplitude / numTonos) * globalGain;
+        sampleValue *= (amplitude * Volumen / numTonos) * globalGain;;
 
-// Solo aplicar distorsión si gain > 1.0
+        // Solo aplicar distorsión si gain > 1.0
         double normalizedSample = sampleValue / 32767.0;
 
         if (distortionAmount > 1.0f)
